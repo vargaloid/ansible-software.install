@@ -3,12 +3,11 @@
   ping:
 
 - name: check OS
-  debug: msg={{ansible_os_family}}-{{ansible_distribution}}{{ansible_distribution_version}}-{{ansible_distribution_release}}
+  debug: msg={{ ansible_os_family }}-{{ ansible_distribution }}{{ ansible_distribution_version }}-{{ ansible_distribution_release }}
 
 - name: install gnupg2 for debian, ubuntu
   apt:
     name: gnupg2
-    state: latest
     update_cache: yes
   when: ansible_os_family == "Debian"
 
@@ -21,7 +20,7 @@
 # debian
 - name: add nginx repo for debian
   ansible.builtin.apt_repository:
-    repo: deb http://nginx.org/packages/debian {{ansible_distribution_release}} nginx
+    repo: deb http://nginx.org/packages/debian {{ ansible_distribution_release }} nginx
     validate_certs: yes
     state: present
     filename: nginx
@@ -30,7 +29,7 @@
 # ubuntu
 - name: add nginx repo for ubuntu
   ansible.builtin.apt_repository:
-    repo: deb http://nginx.org/packages/ubuntu {{ansible_distribution_release}} nginx
+    repo: deb http://nginx.org/packages/ubuntu {{ ansible_distribution_release }} nginx
     validate_certs: yes
     state: present
     filename: nginx
@@ -39,7 +38,6 @@
 - name: install nginx for debian, ubuntu
   apt:
     name: nginx
-    state: latest
     update_cache: yes
   when: ansible_os_family == "Debian"
 
@@ -57,7 +55,6 @@
 - name: install nginx for RedHat
   yum:
     name: nginx
-    state: latest
   when: ansible_os_family == "RedHat"
 
 - name: enable nginx and ensure it is not masked
