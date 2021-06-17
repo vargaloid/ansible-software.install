@@ -1,0 +1,9 @@
+# https://github.com/vargaloid
+---
+- hosts: "{{ hosts }}"
+  vars:
+  roles:
+    - nginx
+#    - php8.0
+#    - mariadb
+#    - certbot
