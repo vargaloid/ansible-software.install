@@ -1,0 +1,72 @@
+---
+- name: ping hosts
+  ping:
+
+- name: check OS
+  debug: msg={{ ansible_os_family }}-{{ ansible_distribution }}{{ ansible_distribution_version }}-{{ ansible_distribution_release }}
+
+# ==== Debian/Ubuntu ====
+- name: install snap for Debian
+  apt:
+    name: snapd
+    update_cache: yes
+  when: ansible_distribution == "Debian"
+
+- name: install snap core for Debian/Ubuntu
+  community.general.snap:
+    name: core
+  when: ansible_os_family == "Debian"
+
+- name: install certbot for Debian/Ubuntu
+  community.general.snap:
+    name: certbot
+    classic: yes
+  when: ansible_os_family == "Debian"
+
+# ==== CentOS ====
+- name: add EPEL repo for CentOS
+  yum:
+    name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ ansible_distribution_major_version }}.noarch.rpm
+  when: ansible_os_family == "RedHat"
+
+- name: add snapd for CentOS
+  yum:
+    name: snapd
+  when: ansible_os_family == "RedHat"
+
+- name: enable snapd.socket for CentOS
+  systemd:
+    name: snapd.socket
+    enabled: yes
+    masked: no
+  when: ansible_os_family == "RedHat"
+
+- name: make sure snapd is started for CentOS
+  systemd:
+    state: started
+    name: snapd.socket
+  when: ansible_os_family == "RedHat"
+
+- name: install snap core for CentOS
+  community.general.snap:
+    name: core
+  when: ansible_os_family == "RedHat"
+
+- name: create a symbolic link to /snap for CentOS
+  ansible.builtin.file:
+    src: /var/lib/snapd/snap
+    dest: /snap
+    state: link
+  when: ansible_os_family == "RedHat"
+
+- name: install certbot for CentOS
+  community.general.snap:
+    name: certbot
+    classic: yes
+  when: ansible_os_family == "RedHat"
+
+- name: create a symbolic link to certbot
+  ansible.builtin.file:
+    src: /snap/bin/certbot
+    dest: /usr/bin/certbot
+    state: link
