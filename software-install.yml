@@ -3,7 +3,7 @@
 - hosts: "{{ hosts }}"
   vars:
   roles:
-    - nginx
-#    - php8.0
+#    - nginx
 #    - mariadb
+#    - php8.0
 #    - certbot
