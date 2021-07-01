@@ -2,6 +2,7 @@
 Ansible-playbook to install some packages to your Linux server.
 
 ## packages
+* Docker
 * nginx
 * MariaDB 10.5
 * PHP8.0
@@ -18,7 +19,7 @@ Ansible-playbook to install some packages to your Linux server.
 
 ## requirments
 * Debian, Ubuntu, CentOS7/8
-* Ansible <= 2.9.6
+* Ansible >= 2.9.6
 * ansible-collection [community.general](https://github.com/ansible-collections/community.general)
 
 ## installing
