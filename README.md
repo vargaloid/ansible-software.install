@@ -2,7 +2,7 @@
 Ansible-playbook to install some packages to your Linux server.
 
 ## packages
-* Docker
+* Docker CE
 * nginx
 * MariaDB 10.5
 * PHP8.0
@@ -18,7 +18,7 @@ Ansible-playbook to install some packages to your Linux server.
 * certbot
 
 ## requirments
-* Debian, Ubuntu, CentOS7/8
+* Debian, Ubuntu
 * Ansible >= 2.9.6
 * ansible-collection [community.general](https://github.com/ansible-collections/community.general)
 
@@ -37,5 +37,5 @@ Just uncomment required software in file **`software-install.yml`**
 
 ## using
 ```Bash
-ansible-playbook software-install.yml -e "hosts=YOUR-HOST-NAME"
+ansible-playbook software-install.yaml -e "hosts=YOUR-HOST-NAME"
 ```
