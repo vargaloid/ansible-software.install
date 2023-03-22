@@ -1,9 +1,10 @@
 ---
 - hosts: "{{ hosts }}"
   vars:
-  roles:
+    php_version: 8.2 # You can change PHP version to your needs
+  roles: # Uncomment required software
     - docker
     - nginx
     - mariadb
-#    - php8.0
+    - php
     - certbot

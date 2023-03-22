@@ -5,16 +5,17 @@ Ansible-playbook to install some packages to your Linux server.
 * Docker CE
 * nginx
 * MariaDB 10.10
-* PHP8.0
-    * php8.0-fpm
-    * php8.0-gd
-    * php8.0-xml
-    * php8.0-soap
-    * php8.0-mbstring
-    * php8.0-mysql
-    * php8.0-imap
-    * php8.0-curl
-    * php8.0-zip
+* PHP
+    * php-cli
+    * php-curl
+    * php-fpm
+    * php-gd
+    * php-imap
+    * php-mbstring
+    * php-mysql
+    * php-soap
+    * php-xml
+    * php-zip
 * certbot
 
 ## requirments
@@ -33,7 +34,8 @@ ansible-galaxy collection install community.general
 ```
 
 ## configuring
-Just uncomment required software in file **`software-install.yaml`**
+* Uncomment required software in file **`software-install.yaml`**
+* Change PHP version if you need it
 
 ## using
 ```Bash

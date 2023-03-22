@@ -1,0 +1,75 @@
+---
+- name: Ping hosts
+  ping:
+
+- name: Check OS
+  ansible.builtin.debug: msg={{ ansible_os_family }}-{{ ansible_distribution }}{{ ansible_distribution_version }}-{{ ansible_distribution_release }}
+
+- name: Preinstallations
+  ansible.builtin.apt:
+    name:
+      - lsb-release
+      - gnupg2
+      - apt-transport-https
+      - ca-certificates
+      - software-properties-common
+      - curl
+      - sudo
+    update_cache: yes
+    state: latest
+  when: ansible_os_family == "Debian"
+
+- name: Create keyrings directory for Debian
+  ansible.builtin.file:
+    path: /etc/apt/keyrings
+    state: directory
+    mode: '0755'
+  when: ansible_distribution == "Debian"
+
+- name: Add sury.org GPG key for Debian
+  ansible.builtin.get_url:
+    url: https://packages.sury.org/php/apt.gpg
+    dest: /etc/apt/keyrings/deb.sury.org-php.gpg
+  when: ansible_distribution == "Debian"
+
+- name: Add sury.org repo for Debian
+  ansible.builtin.apt_repository:
+    repo: "deb [signed-by=/etc/apt/keyrings/deb.sury.org-php.gpg] https://packages.sury.org/php/ {{ ansible_distribution_release }} main"
+    validate_certs: yes
+    state: present
+    filename: php
+  when: ansible_distribution == "Debian"
+
+- name: Add sury.org repo for Ubuntu
+  ansible.builtin.apt_repository:
+    repo: ppa:ondrej/php
+  when: ansible_distribution == "Ubuntu"
+
+- name: Install PHP
+  ansible.builtin.apt:
+    name:
+      - php{{ php_version }}-cli
+      - php{{ php_version }}-curl
+      - php{{ php_version }}-fpm
+      - php{{ php_version }}-gd
+      - php{{ php_version }}-imap
+      - php{{ php_version }}-soap
+      - php{{ php_version }}-mbstring
+      - php{{ php_version }}-mysql
+      - php{{ php_version }}-xml
+      - php{{ php_version }}-zip
+    update_cache: yes
+  when: ansible_os_family == "Debian"
+
+- name: Enable PHP-FPM and ensure it is not masked
+  ansible.builtin.systemd:
+    name: php{{ php_version }}-fpm
+    enabled: yes
+    masked: no
+  when: ansible_os_family == "Debian"
+
+- name: Make sure PHP-FPM is started
+  ansible.builtin.systemd:
+    state: started
+    name: php{{ php_version }}-fpm
+  when: ansible_os_family == "Debian"
