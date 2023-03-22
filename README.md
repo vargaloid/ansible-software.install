@@ -33,7 +33,7 @@ ansible-galaxy collection install community.general
 ```
 
 ## configuring
-Just uncomment required software in file **`software-install.yml`**
+Just uncomment required software in file **`software-install.yaml`**
 
 ## using
 ```Bash

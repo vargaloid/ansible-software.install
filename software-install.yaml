@@ -3,7 +3,7 @@
   vars:
   roles:
     - docker
-#    - nginx
+    - nginx
 #    - mariadb
 #    - php8.0
 #    - certbot
