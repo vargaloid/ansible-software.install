@@ -1,0 +1,43 @@
+---
+- name: Ping hosts
+  ping:
+
+- name: Check OS
+  ansible.builtin.debug: msg={{ ansible_os_family }}-{{ ansible_distribution }}{{ ansible_distribution_version }}-{{ ansible_distribution_release }}
+
+- name: Install gnupg2
+  ansible.builtin.apt:
+    name: gnupg2
+    update_cache: yes
+  when: ansible_os_family == "Debian"
+
+- name: Add a nginx apt signing key
+  ansible.builtin.apt_key:
+    url: https://nginx.org/keys/nginx_signing.key
+    state: present
+  when: ansible_os_family == "Debian"
+
+- name: Add nginx repo
+  ansible.builtin.apt_repository:
+    repo: deb http://nginx.org/packages/{{ ansible_distribution|lower }} {{ ansible_distribution_release }} nginx
+    validate_certs: yes
+    state: present
+    filename: nginx
+  when: ansible_os_family == "Debian"
+
+- name: Install nginx
+  ansible.builtin.apt:
+    name: nginx
+    update_cache: yes
+  when: ansible_os_family == "Debian"
+
+- name: Enable nginx and ensure it is not masked
+  ansible.builtin.systemd:
+    name: nginx
+    enabled: yes
+    masked: no
+
+- name: Make sure nginx is started
+  ansible.builtin.systemd:
+    name: nginx
+    state: started
