@@ -23,12 +23,13 @@
     validate_certs: yes
     state: present
     filename: mariadb
-  when: ansible_distribution == "Debian"
+  when: ansible_os_family == "Debian"
 
 - name: Install mariadb-server
   apt:
     name: mariadb-server
     update_cache: yes
+    state: latest
   when: ansible_os_family == "Debian"
 
 - name: Enable MariaDB-server and ensure it is not masked
