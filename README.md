@@ -4,7 +4,7 @@ Ansible-playbook to install some packages to your Linux server.
 ## packages
 * Docker CE
 * nginx
-* MariaDB 10.5
+* MariaDB 10.10
 * PHP8.0
     * php8.0-fpm
     * php8.0-gd

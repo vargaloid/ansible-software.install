@@ -4,6 +4,6 @@
   roles:
     - docker
     - nginx
-#    - mariadb
+    - mariadb
 #    - php8.0
 #    - certbot
