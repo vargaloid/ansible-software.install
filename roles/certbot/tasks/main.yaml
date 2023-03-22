@@ -1,0 +1,29 @@
+---
+- name: Ping hosts
+  ping:
+
+- name: Check OS
+  ansible.builtin.debug: msg={{ ansible_os_family }}-{{ ansible_distribution }}{{ ansible_distribution_version }}-{{ ansible_distribution_release }}
+
+- name: Install snap
+  ansible.builtin.apt:
+    name: snapd
+    update_cache: yes
+  when: ansible_distribution == "Debian"
+
+- name: Install snap core
+  community.general.snap:
+    name: core
+  when: ansible_os_family == "Debian"
+
+- name: Install certbot
+  community.general.snap:
+    name: certbot
+    classic: yes
+  when: ansible_os_family == "Debian"
+
+- name: Create a symbolic link to certbot
+  ansible.builtin.file:
+    src: /snap/bin/certbot
+    dest: /usr/bin/certbot
+    state: link

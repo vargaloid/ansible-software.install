@@ -6,4 +6,4 @@
     - nginx
     - mariadb
 #    - php8.0
-#    - certbot
+    - certbot
